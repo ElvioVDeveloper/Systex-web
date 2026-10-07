@@ -1,0 +1,90 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Reusable validation primitives
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        request.auth.token.email == 'danielalvarenga751@gmail.com' ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    // Lead Validation Helper
+    function isValidLead(data) {
+      return data.name is string && data.name.size() > 0 && data.name.size() <= 128 &&
+             data.company is string && data.company.size() > 0 && data.company.size() <= 128 &&
+             data.whatsapp is string && data.whatsapp.size() > 0 && data.whatsapp.size() <= 64 &&
+             data.service is string && data.service.size() > 0 && data.service.size() <= 128 &&
+             data.status in ['NUEVO', 'EN_CONTACTO', 'COTIZADO', 'CERRADO', 'DESCARTADO'] &&
+             data.createdAt is number &&
+             (!('email' in data) || (data.email is string && data.email.size() <= 128)) &&
+             (!('message' in data) || (data.message is string && data.message.size() <= 2048));
+    }
+
+    // Project Validation Helper
+    function isValidProject(data) {
+      return data.id is string && data.id.size() <= 128 &&
+             data.title is string && data.title.size() > 0 && data.title.size() <= 128 &&
+             data.category is string && data.category.size() <= 64 &&
+             data.published is bool &&
+             (!('description' in data) || (data.description is string && data.description.size() <= 2048));
+    }
+
+    // AgencySettings Validation Helper
+    function isValidSettings(data) {
+      return data.agencyName is string && data.agencyName.size() <= 128 &&
+             data.whatsappNumber is string && data.whatsappNumber.size() <= 64 &&
+             data.consultationEmail is string && data.consultationEmail.size() <= 128;
+    }
+
+    // Default Deny All Catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Admins Collection
+    match /admins/{adminId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+
+    // Leads Collection
+    match /leads/{leadId} {
+      allow create: if isValidId(leadId) && isValidLead(incoming());
+      allow read: if isAdmin() || isSignedIn();
+      allow update: if (isAdmin() || isSignedIn()) && isValidLead(incoming());
+      allow delete: if isAdmin() || isSignedIn();
+    }
+
+    // Projects Collection
+    match /projects/{projectId} {
+      allow read: if true;
+      allow create: if (isAdmin() || isSignedIn()) && isValidId(projectId) && isValidProject(incoming());
+      allow update: if (isAdmin() || isSignedIn()) && isValidProject(incoming());
+      allow delete: if isAdmin() || isSignedIn();
+    }
+
+    // Settings Collection
+    match /settings/{settingId} {
+      allow read: if true;
+      allow create, update: if (isAdmin() || isSignedIn()) && isValidSettings(incoming());
+      allow delete: if isAdmin();
+    }
+  }
+}

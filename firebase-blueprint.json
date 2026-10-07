@@ -1,0 +1,82 @@
+{
+  "entities": {
+    "Lead": {
+      "title": "Lead",
+      "description": "Consultas y solicitudes de cotización enviadas por potenciales clientes desde la web.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 128 },
+        "company": { "type": "string", "maxLength": 128 },
+        "whatsapp": { "type": "string", "maxLength": 64 },
+        "email": { "type": "string", "maxLength": 128 },
+        "service": { "type": "string", "maxLength": 128 },
+        "serviceCategory": { "type": "string", "maxLength": 64 },
+        "serviceIcon": { "type": "string", "maxLength": 64 },
+        "message": { "type": "string", "maxLength": 2048 },
+        "status": {
+          "type": "string",
+          "enum": ["NUEVO", "EN_CONTACTO", "COTIZADO", "CERRADO", "DESCARTADO"]
+        },
+        "dateLabel": { "type": "string", "maxLength": 64 },
+        "timeLabel": { "type": "string", "maxLength": 64 },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["name", "company", "whatsapp", "service", "status", "createdAt"]
+    },
+    "Project": {
+      "title": "Project",
+      "description": "Proyectos y casos de estudio del portafolio de SysTex.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "deployId": { "type": "string", "maxLength": 64 },
+        "title": { "type": "string", "maxLength": 128 },
+        "landingTitle": { "type": "string", "maxLength": 128 },
+        "client": { "type": "string", "maxLength": 128 },
+        "industry": { "type": "string", "maxLength": 128 },
+        "shortTag": { "type": "string", "maxLength": 64 },
+        "category": { "type": "string", "maxLength": 64 },
+        "adminCategoryLabel": { "type": "string", "maxLength": 128 },
+        "liveUrl": { "type": "string", "maxLength": 512 },
+        "imageUrl": { "type": "string", "maxLength": 2048 },
+        "description": { "type": "string", "maxLength": 2048 },
+        "impactLabel": { "type": "string", "maxLength": 128 },
+        "impactValue": { "type": "string", "maxLength": 128 },
+        "matrixCode": { "type": "string", "maxLength": 128 },
+        "matrixBadge": { "type": "string", "maxLength": 64 },
+        "published": { "type": "boolean" },
+        "technologies": { "type": "array" }
+      },
+      "required": ["id", "title", "category", "published"]
+    },
+    "AgencySettings": {
+      "title": "AgencySettings",
+      "description": "Configuración global de datos de contacto de SysTex.",
+      "type": "object",
+      "properties": {
+        "agencyName": { "type": "string", "maxLength": 128 },
+        "whatsappNumber": { "type": "string", "maxLength": 64 },
+        "consultationEmail": { "type": "string", "maxLength": 128 },
+        "elvioPhotoUrl": { "type": "string", "maxLength": 1024 },
+        "jorgePhotoUrl": { "type": "string", "maxLength": 1024 },
+        "updatedAt": { "type": "number" }
+      },
+      "required": ["agencyName", "whatsappNumber", "consultationEmail"]
+    }
+  },
+  "firestore": {
+    "/leads/{leadId}": {
+      "schema": { "$ref": "#/entities/Lead" },
+      "description": "Almacena los prospectos de clientes generados desde el formulario de contacto."
+    },
+    "/projects/{projectId}": {
+      "schema": { "$ref": "#/entities/Project" },
+      "description": "Almacena el portafolio de proyectos y casos de éxito de SysTex."
+    },
+    "/settings/{settingId}": {
+      "schema": { "$ref": "#/entities/AgencySettings" },
+      "description": "Configuración global de la agencia (teléfonos, correos, etc.)."
+    }
+  }
+}

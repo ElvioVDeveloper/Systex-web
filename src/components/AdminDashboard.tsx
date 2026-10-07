@@ -480,6 +480,12 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
           {/* Right Header Controls */}
           <div className="flex items-center gap-3">
+            {/* Firebase Cloud Sync Badge */}
+            <div className="hidden md:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#182330] border border-[#2B4055] text-[11px] text-[#86C4EE] font-mono">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#52B788] shadow-[0_0_6px_#52B788]" />
+              <span>Firebase Sync</span>
+            </div>
+
             <button
               type="button"
               onClick={() => {
