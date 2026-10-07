@@ -263,7 +263,7 @@ export const INITIAL_LEADS: Lead[] = [
 ];
 
 export const DEFAULT_SETTINGS: AgencySettings = {
-  whatsappNumber: '5491144552211',
+  whatsappNumber: '595994865645',
   contactEmail: 'contacto@systex.cloud',
   adminPassword: 'admin',
   webhookActive: true,

@@ -4,6 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import {
   Project,
   Lead,
@@ -15,6 +16,7 @@ import {
 } from './types/systex';
 import { LandingPage } from './components/LandingPage';
 import { AdminDashboard } from './components/AdminDashboard';
+import { AdminLoginScreen } from './components/AdminLoginScreen';
 import { SysTexLogo } from './components/SysTexLogos';
 import {
   db,
@@ -39,8 +41,7 @@ const STORAGE_KEYS = {
 };
 
 export default function App() {
-  // Current Active View: 'landing' | 'admin'
-  const [currentView, setCurrentView] = useState<'landing' | 'admin'>('landing');
+  const navigate = useNavigate();
 
   // Firebase Auth State
   const [firebaseUser, setFirebaseUser] = useState<User | null>(null);
@@ -53,7 +54,6 @@ export default function App() {
       return false;
     }
   });
-  const [showLoginModal, setShowLoginModal] = useState(false);
   const [loginPassword, setLoginPassword] = useState('');
   const [loginError, setLoginError] = useState('');
 
@@ -427,27 +427,17 @@ export default function App() {
     }
   };
 
-  // Admin Access & Auth Handlers
-  const handleOpenAdminRequest = () => {
-    if (isAuthenticated) {
-      setCurrentView('admin');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else {
-      setLoginPassword('');
-      setLoginError('');
-      setShowLoginModal(true);
-    }
-  };
-
   const handleGoogleLogin = async () => {
     try {
       setLoginError('');
       const res = await signInWithPopup(auth, googleProvider);
       if (res.user) {
         setIsAuthenticated(true);
-        setShowLoginModal(false);
-        setCurrentView('admin');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        try {
+          localStorage.setItem(STORAGE_KEYS.AUTH, 'true');
+        } catch {
+          // ignore
+        }
         triggerToast(
           'Autenticado con Firebase',
           `Bienvenido ${res.user.displayName || res.user.email}`
@@ -473,9 +463,7 @@ export default function App() {
       } catch {
         // ignore
       }
-      setShowLoginModal(false);
-      setCurrentView('admin');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setLoginError('');
     } else {
       setLoginError('Contraseña incorrecta. Usa "admin" o el acceso rápido de demostración.');
     }
@@ -488,9 +476,7 @@ export default function App() {
     } catch {
       // ignore
     }
-    setShowLoginModal(false);
-    setCurrentView('admin');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setLoginError('');
   };
 
   const handleLogout = async () => {
@@ -505,16 +491,16 @@ export default function App() {
     } catch {
       // ignore
     }
-    setCurrentView('landing');
+    navigate('/');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const unreadLeadsCount = leads.filter((l) => l.status === 'NUEVO').length;
 
   return (
-    <div className="relative min-h-screen bg-[#111317]">
-      {/* REAL-TIME FLOATING TOAST NOTIFICATION */}
-      {realtimeNotification && (
+    <div className="relative min-h-screen bg-[#111317] overflow-x-hidden w-full">
+      {/* REAL-TIME FLOATING TOAST NOTIFICATION (ONLY FOR AUTHENTICATED ADMIN) */}
+      {isAuthenticated && realtimeNotification && (
         <div className="fixed bottom-16 right-4 z-50 max-w-sm rounded-xl bg-[#1C2129]/95 backdrop-blur-xl border border-[#3A6D8C] p-4 shadow-[0_10px_30px_rgba(0,0,0,0.65)] flex items-start gap-3">
           <div className="w-8 h-8 rounded-lg bg-[#253545] text-[#97CDF4] flex items-center justify-center shrink-0">
             <span className="material-symbols-outlined text-base">bolt</span>
@@ -524,19 +510,6 @@ export default function App() {
               {realtimeNotification.title}
             </p>
             <p className="text-xs text-[#A3AEBC] mt-0.5">{realtimeNotification.subtitle}</p>
-            {currentView === 'landing' && (
-              <button
-                type="button"
-                onClick={() => {
-                  setRealtimeNotification(null);
-                  handleQuickDemoLogin();
-                }}
-                className="mt-2 text-[11px] font-semibold text-[#7CC0EB] hover:underline inline-flex items-center gap-1 cursor-pointer"
-              >
-                <span>Abrir Bandeja en SysTex Admin</span>
-                <span className="material-symbols-outlined text-xs">arrow_forward</span>
-              </button>
-            )}
           </div>
           <button
             type="button"
@@ -548,144 +521,64 @@ export default function App() {
         </div>
       )}
 
-      {/* VIEW RENDERER */}
-      {currentView === 'landing' ? (
-        <LandingPage
-          projects={projects}
-          unreadLeadsCount={unreadLeadsCount}
-          settings={settings}
-          onAddLead={handleAddLead}
-          onUpdateSettings={handleUpdateSettings}
-          onOpenAdmin={handleOpenAdminRequest}
+      {/* REACT ROUTER: SEPARATION OF PUBLIC LANDING (/) AND PRIVATE ADMIN (/admin) */}
+      <Routes>
+        {/* RUTA PÚBLICA: LANDING PAGE 100% ENFOCADA AL CLIENTE */}
+        <Route
+          path="/"
+          element={
+            <LandingPage
+              projects={projects}
+              settings={settings}
+              onAddLead={handleAddLead}
+              onUpdateSettings={handleUpdateSettings}
+            />
+          }
         />
-      ) : (
-        <AdminDashboard
-          projects={projects}
-          leads={leads}
-          settings={settings}
-          onCreateProject={handleCreateProject}
-          onUpdateProject={handleUpdateProject}
-          onDeleteProject={handleDeleteProject}
-          onToggleProjectVisibility={handleToggleProjectVisibility}
-          onUpdateLeadStatus={handleUpdateLeadStatus}
-          onDeleteLead={handleDeleteLead}
-          onUpdateSettings={handleUpdateSettings}
-          onResetDemoData={handleResetDemoData}
-          onSwitchToPublic={() => {
-            setCurrentView('landing');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
-          onLogout={handleLogout}
+
+        {/* RUTA PRIVADA: PANEL DE ADMINISTRACIÓN SYSTEX (/admin) */}
+        <Route
+          path="/admin"
+          element={
+            isAuthenticated ? (
+              <AdminDashboard
+                projects={projects}
+                leads={leads}
+                settings={settings}
+                onCreateProject={handleCreateProject}
+                onUpdateProject={handleUpdateProject}
+                onDeleteProject={handleDeleteProject}
+                onToggleProjectVisibility={handleToggleProjectVisibility}
+                onUpdateLeadStatus={handleUpdateLeadStatus}
+                onDeleteLead={handleDeleteLead}
+                onUpdateSettings={handleUpdateSettings}
+                onResetDemoData={handleResetDemoData}
+                onSwitchToPublic={() => {
+                  navigate('/');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                onLogout={handleLogout}
+              />
+            ) : (
+              <AdminLoginScreen
+                loginPassword={loginPassword}
+                setLoginPassword={setLoginPassword}
+                loginError={loginError}
+                onLoginSubmit={handleLoginSubmit}
+                onGoogleLogin={handleGoogleLogin}
+                onQuickDemoLogin={handleQuickDemoLogin}
+                onBackToLanding={() => {
+                  navigate('/');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+              />
+            )
+          }
         />
-      )}
 
-      {/* ADMIN AUTHENTICATION MODAL */}
-      {showLoginModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
-          <div className="relative w-full max-w-md rounded-2xl bg-[#181B22] border border-[#2B313D] p-6 sm:p-7 shadow-2xl flex flex-col gap-5">
-            <div className="flex items-center justify-between">
-              <SysTexLogo size="sm" subtitleText="ADMIN SECURITY GATE" />
-              <button
-                type="button"
-                onClick={() => setShowLoginModal(false)}
-                className="p-1.5 rounded-lg text-[#8E97A4] hover:text-white hover:bg-[#232833] cursor-pointer"
-              >
-                <span className="material-symbols-outlined text-base">close</span>
-              </button>
-            </div>
-
-            <div>
-              <h3 className="font-headline font-bold text-xl text-white">
-                Panel de Administración SysTex
-              </h3>
-              <p className="text-xs text-[#9AA2AE] mt-1">
-                Acceso exclusivo para cofundadores (Elvio Vazquez &amp; Jorge Nuñez) para gestión de
-                leads y despliegues de portafolio.
-              </p>
-            </div>
-
-            {loginError && (
-              <div className="p-3 rounded-xl bg-[#3A181B] border border-[#6E2A30] text-xs text-[#FFB4AB]">
-                {loginError}
-              </div>
-            )}
-
-            {/* Google Firebase Login Button */}
-            <button
-              type="button"
-              onClick={handleGoogleLogin}
-              className="w-full py-2.5 px-4 rounded-xl bg-white hover:bg-neutral-100 text-neutral-800 text-xs font-semibold flex items-center justify-center gap-2.5 transition-all shadow-md cursor-pointer"
-            >
-              <svg className="w-4 h-4" viewBox="0 0 24 24">
-                <path
-                  fill="#4285F4"
-                  d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                />
-                <path
-                  fill="#34A853"
-                  d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                />
-                <path
-                  fill="#FBBC05"
-                  d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"
-                />
-                <path
-                  fill="#EA4335"
-                  d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
-                />
-              </svg>
-              <span>Continuar con Google (Firebase Auth)</span>
-            </button>
-
-            <div className="relative flex py-1 items-center">
-              <div className="flex-grow border-t border-[#262B35]" />
-              <span className="flex-shrink mx-3 text-[10px] uppercase tracking-widest text-[#6E7785]">
-                O ingresa con contraseña
-              </span>
-              <div className="flex-grow border-t border-[#262B35]" />
-            </div>
-
-            <form onSubmit={handleLoginSubmit} className="flex flex-col gap-3.5">
-              <div className="flex flex-col gap-1.5">
-                <label className="text-[11px] font-semibold uppercase tracking-wider text-[#B8C2CE]">
-                  Clave de Acceso (Demo: <span className="font-mono text-[#7CC0EB]">admin</span>)
-                </label>
-                <input
-                  type="password"
-                  value={loginPassword}
-                  onChange={(e) => setLoginPassword(e.target.value)}
-                  placeholder="Ingresa 'admin'..."
-                  className="w-full rounded-xl bg-[#111317] border border-[#262B35] focus:border-[#4D8FB8] px-3.5 py-2.5 text-sm text-white focus:outline-none"
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="w-full py-2.5 px-4 rounded-xl bg-[#2B729F] hover:bg-[#3582B3] text-white text-xs font-semibold transition-all shadow-[0_0_20px_rgba(43,114,159,0.4)] cursor-pointer"
-              >
-                Ingresar con Contraseña
-              </button>
-            </form>
-
-            <div className="relative flex py-1 items-center">
-              <div className="flex-grow border-t border-[#262B35]" />
-              <span className="flex-shrink mx-3 text-[10px] uppercase tracking-widest text-[#6E7785]">
-                Acceso Rápido Evaluador
-              </span>
-              <div className="flex-grow border-t border-[#262B35]" />
-            </div>
-
-            <button
-              type="button"
-              onClick={handleQuickDemoLogin}
-              className="w-full py-2.5 px-4 rounded-xl bg-[#1F2530] hover:bg-[#28303E] border border-[#344154] text-[#97CDF4] text-xs font-semibold flex items-center justify-center gap-2 transition-all cursor-pointer"
-            >
-              <span className="material-symbols-outlined text-base">verified_user</span>
-              <span>Entrar Directamente al Dashboard (1-Click)</span>
-            </button>
-          </div>
-        </div>
-      )}
+        {/* CATCH-ALL ROUTE: REDIRECCIÓN AUTOMÁTICA A LA LANDING PÚBLICA */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
     </div>
   );
 }
