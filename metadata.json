@@ -1,0 +1,6 @@
+{
+  "name": "SysTex — Digital Systems & Web Solutions",
+  "description": "Plataforma corporativa B2B y panel de administración para SysTex (Digital Systems & Web Solutions), fundada por Elvio Vazquez y Jorge Nuñez. Desarrollo web de alta conversión, sistemas ERP de control de stock, plataformas de agendamiento y software a medida.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,99 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #111317;
+  --color-surface: #111317;
+  --color-surface-dim: #111317;
+  --color-surface-container-lowest: #0c0e12;
+  --color-surface-container-low: #1a1c20;
+  --color-surface-container: #1e2024;
+  --color-surface-container-high: #282a2e;
+  --color-surface-container-highest: #333539;
+  --color-surface-variant: #333539;
+  --color-surface-bright: #37393e;
+  --color-primary: #97cdf4;
+  --color-on-primary: #00344d;
+  --color-primary-container: #6097bc;
+  --color-on-primary-container: #002d43;
+  --color-primary-fixed: #c8e6ff;
+  --color-primary-fixed-dim: #97cdf4;
+  --color-secondary: #94ccff;
+  --color-on-secondary: #003352;
+  --color-secondary-container: #0375b2;
+  --color-on-secondary-container: #eef5ff;
+  --color-tertiary: #9bcdef;
+  --color-tertiary-container: #6596b7;
+  --color-on-tertiary-container: #002d42;
+  --color-on-surface: #e2e2e8;
+  --color-on-surface-variant: #c1c7ce;
+  --color-outline: #8b9198;
+  --color-outline-variant: #41484d;
+  --color-error: #ffb4ab;
+  --color-on-error: #690005;
+  --color-error-container: #93000a;
+  --color-on-error-container: #ffdad6;
+
+  --color-systex-bg: #121418;
+  --color-systex-surface: #1B1E23;
+  --color-systex-card: #1E2228;
+  --color-systex-border: #2A2E35;
+  --color-systex-steel: #3A6D8C;
+  --color-systex-silver: #E1E7ED;
+
+  --spacing-space-xs: 0.25rem;
+  --spacing-space-sm: 0.5rem;
+  --spacing-space-md: 1rem;
+  --spacing-space-lg: 1.5rem;
+  --spacing-space-xl: 2.5rem;
+  --spacing-margin: 3rem;
+  --spacing-margin-mobile: 1.25rem;
+  --spacing-gutter: 1.5rem;
+  --spacing-gutter-mobile: 1rem;
+
+  --font-display: "Space Grotesk", sans-serif;
+  --font-body: "Manrope", sans-serif;
+  --font-label: "Geist", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+@layer base {
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: #111317;
+    color: #e2e2e8;
+    font-family: "Manrope", sans-serif;
+    overscroll-behavior: none;
+  }
+}
+
+.font-headline {
+  font-family: "Space Grotesk", sans-serif;
+}
+
+.font-body-text {
+  font-family: "Manrope", sans-serif;
+}
+
+.font-label-text {
+  font-family: "Geist", sans-serif;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+  user-select: none;
+}
+
+/* Subtle metallic glow effects */
+.systex-glow {
+  box-shadow: 0 0 24px rgba(58, 109, 140, 0.35);
+}
+
+.systex-glow-strong {
+  box-shadow: 0 0 32px rgba(151, 205, 244, 0.35);
+}
