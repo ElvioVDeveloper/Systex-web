@@ -34,7 +34,7 @@ import {
 } from './firebase';
 
 const STORAGE_KEYS = {
-  PROJECTS: 'systex_db_projects_v2', // bumped to v2 so static source code projects take immediate precedence over stale browser cache
+  PROJECTS: 'systex_db_projects_v7', // bumped to v7 for Sovereign Craft official URL
   LEADS: 'systex_db_leads_v1',
   SETTINGS: 'systex_db_settings_v3',
   AUTH: 'systex_admin_auth_v1',
@@ -66,8 +66,13 @@ export default function App() {
   // Database State: Projects (Directly initialized from static source code INITIAL_PROJECTS)
   const [projects, setProjects] = useState<Project[]>(() => {
     try {
-      // Clear legacy storage key if present
+      // Clear legacy storage keys
       localStorage.removeItem('systex_db_projects_v1');
+      localStorage.removeItem('systex_db_projects_v2');
+      localStorage.removeItem('systex_db_projects_v3');
+      localStorage.removeItem('systex_db_projects_v4');
+      localStorage.removeItem('systex_db_projects_v5');
+      localStorage.removeItem('systex_db_projects_v6');
       const saved = localStorage.getItem(STORAGE_KEYS.PROJECTS);
       if (saved) {
         const parsed = JSON.parse(saved);
@@ -75,7 +80,7 @@ export default function App() {
           // Merge with INITIAL_PROJECTS so real source code projects always retain pristine images and metrics
           return parsed.map((item: Project) => {
             const initialMatch = INITIAL_PROJECTS.find((p) => p.id === item.id);
-            return initialMatch ? { ...initialMatch, ...item } : item;
+            return initialMatch ? { ...item, ...initialMatch } : item;
           });
         }
       }
@@ -181,7 +186,9 @@ export default function App() {
           if (!snapshot.empty) {
             const remoteProjects: Project[] = [];
             snapshot.forEach((docSnap) => {
-              remoteProjects.push(docSnap.data() as Project);
+              const data = docSnap.data() as Project;
+              const initialMatch = INITIAL_PROJECTS.find((p) => p.id === data.id);
+              remoteProjects.push(initialMatch ? { ...data, ...initialMatch } : data);
             });
             setProjects(remoteProjects);
           } else {

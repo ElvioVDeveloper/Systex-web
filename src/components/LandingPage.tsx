@@ -773,7 +773,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {filteredProjects.map((project) => {
-                const projectImage = project.image || project.imageUrl;
+                const projectImage = project.imageUrl || project.image;
                 const projectTitle = project.landingTitle || project.title;
                 return (
                   <article
@@ -1213,7 +1213,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           <div className="relative w-full max-w-2xl rounded-2xl bg-[#181B22] border border-[#2B313D] overflow-hidden shadow-2xl">
             <div className="relative h-56 sm:h-64 bg-[#111317]">
               <img
-                src={selectedCaseStudy.image || selectedCaseStudy.imageUrl}
+                src={selectedCaseStudy.imageUrl || selectedCaseStudy.image}
                 alt={selectedCaseStudy.title}
                 referrerPolicy="no-referrer"
                 className="w-full h-full max-w-full object-cover opacity-75"

@@ -1062,9 +1062,9 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                     {/* Top Preview Area */}
                     <div className="relative h-48 bg-surface-container-high overflow-hidden">
                       <div className="absolute inset-0 bg-gradient-to-t from-surface-container-low to-transparent z-10" />
-                      {project.imageUrl ? (
+                      {project.imageUrl || project.image ? (
                         <img
-                          src={project.imageUrl}
+                          src={project.imageUrl || project.image}
                           alt={project.title}
                           referrerPolicy="no-referrer"
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-65"
