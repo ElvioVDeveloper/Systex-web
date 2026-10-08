@@ -34,7 +34,7 @@ import {
 } from './firebase';
 
 const STORAGE_KEYS = {
-  PROJECTS: 'systex_db_projects_v1',
+  PROJECTS: 'systex_db_projects_v2', // bumped to v2 so static source code projects take immediate precedence over stale browser cache
   LEADS: 'systex_db_leads_v1',
   SETTINGS: 'systex_db_settings_v3',
   AUTH: 'systex_admin_auth_v1',
@@ -63,13 +63,21 @@ export default function App() {
     subtitle: string;
   } | null>(null);
 
-  // Database State: Projects
+  // Database State: Projects (Directly initialized from static source code INITIAL_PROJECTS)
   const [projects, setProjects] = useState<Project[]>(() => {
     try {
+      // Clear legacy storage key if present
+      localStorage.removeItem('systex_db_projects_v1');
       const saved = localStorage.getItem(STORAGE_KEYS.PROJECTS);
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          // Merge with INITIAL_PROJECTS so real source code projects always retain pristine images and metrics
+          return parsed.map((item: Project) => {
+            const initialMatch = INITIAL_PROJECTS.find((p) => p.id === item.id);
+            return initialMatch ? { ...initialMatch, ...item } : item;
+          });
+        }
       }
     } catch {
       // ignore storage errors

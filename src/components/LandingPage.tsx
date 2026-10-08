@@ -772,54 +772,58 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {filteredProjects.map((project) => (
-                <article
-                  key={project.id}
-                  className="rounded-2xl bg-[#171A20] border border-[#262B35] hover:border-[#3A6D8C] transition-all shadow-lg overflow-hidden flex flex-col justify-between group"
-                >
-                  <div>
-                    {/* Project Preview Image */}
-                    {project.imageUrl && (
-                      <div className="relative w-full h-44 sm:h-48 overflow-hidden bg-[#111317]">
-                        <img
-                          src={project.imageUrl}
-                          alt={project.landingTitle || project.title}
-                          referrerPolicy="no-referrer"
-                          className="w-full h-full max-w-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#171A20] via-transparent to-transparent opacity-80" />
+              {filteredProjects.map((project) => {
+                const projectImage = project.image || project.imageUrl;
+                const projectTitle = project.landingTitle || project.title;
+                return (
+                  <article
+                    key={project.id}
+                    className="rounded-2xl bg-[#171A20] border border-[#262B35] hover:border-[#3A6D8C] transition-all shadow-lg overflow-hidden flex flex-col justify-between group"
+                  >
+                    <div>
+                      {/* Project Preview Image */}
+                      {projectImage && (
+                        <div className="relative w-full h-44 sm:h-48 overflow-hidden bg-[#111317]">
+                          <img
+                            src={projectImage}
+                            alt={projectTitle}
+                            referrerPolicy="no-referrer"
+                            className="w-full h-full max-w-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-[#171A20] via-transparent to-transparent opacity-80" />
+                        </div>
+                      )}
+
+                      {/* Content Body */}
+                      <div className="p-5 sm:p-6">
+                        {/* Title */}
+                        <h3 className="font-headline font-bold text-lg text-white leading-snug">
+                          {projectTitle}
+                        </h3>
+
+                        {/* Description */}
+                        <p className="mt-2 text-xs sm:text-sm text-[#98A1AE] leading-relaxed line-clamp-3">
+                          {project.description}
+                        </p>
                       </div>
-                    )}
-
-                    {/* Content Body */}
-                    <div className="p-5 sm:p-6">
-                      {/* Title */}
-                      <h3 className="font-headline font-bold text-lg text-white leading-snug">
-                        {project.landingTitle || project.title}
-                      </h3>
-
-                      {/* Description */}
-                      <p className="mt-2 text-xs sm:text-sm text-[#98A1AE] leading-relaxed line-clamp-3">
-                        {project.description}
-                      </p>
                     </div>
-                  </div>
 
-                  <div className="px-5 pb-5 sm:px-6 sm:pb-6">
-                    {/* Action Button: Ver Caso de Estudio */}
-                    <button
-                      type="button"
-                      onClick={() => setSelectedCaseStudy(project)}
-                      className="w-full py-2.5 px-4 rounded-xl bg-[#1D2129] hover:bg-[#252B36] border border-[#2B313D] hover:border-[#3A6D8C] text-xs font-semibold text-[#E1E7ED] flex items-center justify-center gap-1.5 transition-all cursor-pointer"
-                    >
-                      <span>Ver Caso de Estudio</span>
-                      <span className="material-symbols-outlined text-[15px] text-[#7CC0EB]">
-                        open_in_new
-                      </span>
-                    </button>
-                  </div>
-                </article>
-              ))}
+                    <div className="px-5 pb-5 sm:px-6 sm:pb-6">
+                      {/* Action Button: Ver Caso de Estudio */}
+                      <button
+                        type="button"
+                        onClick={() => setSelectedCaseStudy(project)}
+                        className="w-full py-2.5 px-4 rounded-xl bg-[#1D2129] hover:bg-[#252B36] border border-[#2B313D] hover:border-[#3A6D8C] text-xs font-semibold text-[#E1E7ED] flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                      >
+                        <span>Ver Caso de Estudio</span>
+                        <span className="material-symbols-outlined text-[15px] text-[#7CC0EB]">
+                          open_in_new
+                        </span>
+                      </button>
+                    </div>
+                  </article>
+                );
+              })}
             </div>
           )}
         </section>
@@ -1209,7 +1213,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           <div className="relative w-full max-w-2xl rounded-2xl bg-[#181B22] border border-[#2B313D] overflow-hidden shadow-2xl">
             <div className="relative h-56 sm:h-64 bg-[#111317]">
               <img
-                src={selectedCaseStudy.imageUrl}
+                src={selectedCaseStudy.image || selectedCaseStudy.imageUrl}
                 alt={selectedCaseStudy.title}
                 referrerPolicy="no-referrer"
                 className="w-full h-full max-w-full object-cover opacity-75"
@@ -1244,7 +1248,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   {selectedCaseStudy.impactLabel || 'Impacto medido:'}
                 </span>
                 <span className="text-xs font-bold text-[#7CC0EB]">
-                  {selectedCaseStudy.impactValue}
+                  {selectedCaseStudy.metrics || selectedCaseStudy.impactValue}
                 </span>
               </div>
 
@@ -1268,7 +1272,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 </button>
 
                 <a
-                  href={selectedCaseStudy.liveUrl}
+                  href={selectedCaseStudy.link || selectedCaseStudy.liveUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-[#2B729F] hover:bg-[#3582B3] text-xs font-semibold text-white inline-flex items-center justify-center gap-1.5 shadow-[0_0_20px_rgba(43,114,159,0.4)] transition-all"

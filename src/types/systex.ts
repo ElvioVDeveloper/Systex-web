@@ -27,6 +27,10 @@ export interface Project {
   adminCategoryLabel: string;
   liveUrl: string;
   imageUrl: string;
+  // Aliases for direct source code / API compatibility
+  image?: string;
+  link?: string;
+  metrics?: string;
   description: string;
   impactLabel: string;
   impactValue: string;
@@ -88,11 +92,14 @@ export const INITIAL_PROJECTS: Project[] = [
     category: 'Sistemas de Gestión',
     adminCategoryLabel: 'Sistemas de Gestión & Stock',
     liveUrl: 'https://logicore-portal.systex.cloud',
+    link: 'https://logicore-portal.systex.cloud',
     imageUrl: logicoreImg,
+    image: 'images/proyecto1.jpeg',
     description:
       'Gestión de inventario masivo con multi-depósito, trazabilidad con lectores de código de barra y despacho optimizado.',
     impactLabel: 'Impacto medido:',
     impactValue: 'Reducción de 45% en pérdidas de stock',
+    metrics: 'Reducción de 45% en pérdidas de stock (-45% errores | 52,400+ SKUs)',
     matrixCode: 'LOGICORE // SKU MATRIX',
     matrixBadge: 'LIVE v4.2',
     previewStats: [
@@ -114,11 +121,14 @@ export const INITIAL_PROJECTS: Project[] = [
     category: 'Agendamiento',
     adminCategoryLabel: 'Plataforma de Agendamiento',
     liveUrl: 'https://auraclinic.systex.app',
+    link: 'https://auraclinic.systex.app',
     imageUrl: auraClinicImg,
+    image: 'images/proyecto2.jpeg',
     description:
       'Ecosistema para gestión de pacientes con agenda interactiva, pagos anticipados con pasarela y ficha clínica segura.',
     impactLabel: 'Resultado:',
     impactValue: '0 turnos perdidos por olvido',
+    metrics: '0 turnos perdidos por olvido (99.4% asistencia garantizada)',
     matrixCode: 'AURA CLINIC // CALENDAR',
     matrixBadge: '99.4% ASISTENCIA',
     previewStats: [
@@ -139,11 +149,14 @@ export const INITIAL_PROJECTS: Project[] = [
     category: 'Landing Pages',
     adminCategoryLabel: 'Landing Page B2B',
     liveUrl: 'https://nexus-landing.systex.com',
+    link: 'https://nexus-landing.systex.com',
     imageUrl: nexusFintechImg,
+    image: 'images/proyecto3.jpeg',
     description:
       'Landing page B2B con arquitectura persuasiva, componentes interactivos de cálculo de rentabilidad y carga sub-segundo.',
     impactLabel: 'Conversión:',
     impactValue: 'De 4.8% a 12.3% en captación',
+    metrics: 'De 4.8% a 12.3% en captación (+156% leads calificados)',
     matrixCode: 'NEXUS FINTECH // CONVERSION',
     matrixBadge: '12.3% CVR',
     previewStats: [
@@ -163,11 +176,14 @@ export const INITIAL_PROJECTS: Project[] = [
     category: 'Sistemas de Gestión',
     adminCategoryLabel: 'Portal B2B & Cotizador',
     liveUrl: 'https://autoparts-pedidos.systex.cloud',
+    link: 'https://autoparts-pedidos.systex.cloud',
     imageUrl: autopartsImg,
+    image: 'images/proyecto4.jpeg',
     description:
       'Portal exclusivo para distribuidores mayoristas con listas de precios segmentadas y cotización automática de fletes en tiempo real.',
     impactLabel: 'Ahorro operativo:',
     impactValue: '6 horas/día en atención telefónica',
+    metrics: '6 horas/día en atención telefónica (+120 distribuidores activos)',
     matrixCode: 'AUTOPARTS // B2B PORTAL',
     matrixBadge: 'COTIZADOR AUTO',
     previewStats: [
