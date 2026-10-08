@@ -35,7 +35,7 @@ import {
 } from './firebase';
 
 const STORAGE_KEYS = {
-  PROJECTS: 'systex_db_projects_v13', // bumped to v13: updated prj-4 to Insumos Agrícolas S.A.
+  PROJECTS: 'systex_db_projects_v14', // bumped to v14: updated prj-3 to Elevva
   LEADS: 'systex_db_leads_v1',
   SETTINGS: 'systex_db_settings_v3',
   AUTH: 'systex_admin_auth_v1',
@@ -89,6 +89,7 @@ export default function App() {
       localStorage.removeItem('systex_db_projects_v10');
       localStorage.removeItem('systex_db_projects_v11');
       localStorage.removeItem('systex_db_projects_v12');
+      localStorage.removeItem('systex_db_projects_v13');
       const saved = localStorage.getItem(STORAGE_KEYS.PROJECTS);
       if (saved) {
         const parsed = JSON.parse(saved);
@@ -104,6 +105,11 @@ export default function App() {
               const shouldOverrideBarberFlow =
                 item.id === 'prj-2' &&
                 (item.title?.includes('Sovereign') || item.liveUrl?.includes('sovereign'));
+              const shouldOverrideElevva =
+                item.id === 'prj-3' &&
+                (item.title?.toLowerCase().includes('alzza') ||
+                  item.liveUrl?.toLowerCase().includes('alzza') ||
+                  item.client?.toLowerCase().includes('alzza'));
               const shouldOverrideAgroindustrial =
                 item.id === 'prj-4' &&
                 (item.title?.toLowerCase().includes('autoparts') ||
@@ -113,6 +119,16 @@ export default function App() {
                 ...initialMatch,
                 ...item,
                 ...(shouldOverrideBarberFlow
+                  ? {
+                      title: initialMatch.title,
+                      landingTitle: initialMatch.landingTitle,
+                      client: initialMatch.client,
+                      liveUrl: initialMatch.liveUrl,
+                      link: initialMatch.link,
+                      matrixCode: initialMatch.matrixCode,
+                    }
+                  : {}),
+                ...(shouldOverrideElevva
                   ? {
                       title: initialMatch.title,
                       landingTitle: initialMatch.landingTitle,
@@ -273,6 +289,11 @@ export default function App() {
                 const shouldUpdateBarberFlow =
                   data.id === 'prj-2' &&
                   (data.title?.includes('Sovereign') || data.liveUrl?.includes('sovereign'));
+                const shouldUpdateElevva =
+                  data.id === 'prj-3' &&
+                  (data.title?.toLowerCase().includes('alzza') ||
+                    data.liveUrl?.toLowerCase().includes('alzza') ||
+                    data.client?.toLowerCase().includes('alzza'));
                 const shouldUpdateAgroindustrial =
                   data.id === 'prj-4' &&
                   (data.title?.toLowerCase().includes('autoparts') ||
@@ -282,6 +303,16 @@ export default function App() {
                   ...initialMatch,
                   ...data,
                   ...(shouldUpdateBarberFlow
+                    ? {
+                        title: initialMatch.title,
+                        landingTitle: initialMatch.landingTitle,
+                        client: initialMatch.client,
+                        liveUrl: initialMatch.liveUrl,
+                        link: initialMatch.link,
+                        matrixCode: initialMatch.matrixCode,
+                      }
+                    : {}),
+                  ...(shouldUpdateElevva
                     ? {
                         title: initialMatch.title,
                         landingTitle: initialMatch.landingTitle,
@@ -316,6 +347,9 @@ export default function App() {
                 };
                 if (shouldUpdateBarberFlow) {
                   setDoc(doc(db, 'projects', 'prj-2'), updatedProj).catch(() => {});
+                }
+                if (shouldUpdateElevva) {
+                  setDoc(doc(db, 'projects', 'prj-3'), updatedProj).catch(() => {});
                 }
                 if (shouldUpdateAgroindustrial) {
                   setDoc(doc(db, 'projects', 'prj-4'), updatedProj).catch(() => {});

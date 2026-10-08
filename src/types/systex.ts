@@ -2,7 +2,7 @@ import logicoreImg from '../assets/images/portfolio_logicore_erp_1790912187135.j
 import auraClinicImg from '../assets/images/portfolio_aura_clinic_1790912198150.jpg';
 import nexusFintechImg from '../assets/images/portfolio_nexus_fintech_1790912207795.jpg';
 import agroindustrialImg from '../assets/images/agroindustrial.png';
-import alzzaImg from '../assets/images/alzza.png';
+import elevvaImg from '../assets/images/elevva.png';
 import barberflowImg from '../assets/images/barberflow.png';
 import classicBarberImg from '../assets/images/classic_barber.png';
 
@@ -79,7 +79,7 @@ export const FOUNDER_ASSETS = {
 export const PORTFOLIO_PRESET_IMAGES = [
   { label: 'Barbería & Agendamiento (BarberFlow)', url: barberflowImg },
   { label: 'Barbería Atelier & Turnos (The Classic Barber)', url: classicBarberImg },
-  { label: 'Gastronomía & Rooftop (Alzza)', url: alzzaImg },
+  { label: 'Gastronomía & Rooftop (Elevva)', url: elevvaImg },
   { label: 'ERP & Control de Stock (LogiCore)', url: logicoreImg },
   { label: 'Clínica & Agendamiento (Aura)', url: auraClinicImg },
   { label: 'FinTech & Landing B2B (Nexus)', url: nexusFintechImg },
@@ -118,23 +118,23 @@ export const INITIAL_PROJECTS: Project[] = [
   {
     id: 'prj-3',
     deployId: '#STX-PRJ-8902',
-    title: 'Alzza - Gastronomía & Rooftop',
-    landingTitle: 'Alzza - Gastronomía & Coctelería de Altura',
-    client: 'Alzza Rooftop & Lounge',
+    title: 'Elevva - Gastronomía & Rooftop',
+    landingTitle: 'Elevva - Gastronomía & Coctelería de Altura',
+    client: 'Elevva Rooftop & Lounge',
     industry: 'GASTRONOMÍA & COCTELERÍA',
     shortTag: 'Landing & Reservas',
     category: 'Landing Pages',
     adminCategoryLabel: 'Landing Page & Experiencia Gastronómica',
-    liveUrl: 'https://alzza-py.vercel.app/',
-    link: 'https://alzza-py.vercel.app/',
-    imageUrl: alzzaImg,
-    image: 'images/alzza.png',
+    liveUrl: 'https://elevva-py.vercel.app/',
+    link: 'https://elevva-py.vercel.app/',
+    imageUrl: elevvaImg,
+    image: 'images/elevva.png',
     description:
       'Sabores de autor y el mejor after a la altura en la noche encarnacena. Una experiencia sensorial donde la alta cocina se encuentra con la coctelería contemporánea y el horizonte de la ciudad.',
     impactLabel: 'Reservas WhatsApp:',
     impactValue: '+180% en reservas online',
     metrics: '+180% en reservas coordinadas vía WhatsApp (Shopping Encarnación • Planta Alta)',
-    matrixCode: 'ALZZA // ROOFTOP & BAR',
+    matrixCode: 'ELEVVA // ROOFTOP & BAR',
     matrixBadge: 'SIGNATURE 2026',
     previewStats: [
       { value: 'Reservas WhatsApp', label: 'Shopping Encarnación' },
