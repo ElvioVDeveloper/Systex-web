@@ -35,7 +35,7 @@ import {
 } from './firebase';
 
 const STORAGE_KEYS = {
-  PROJECTS: 'systex_db_projects_v14', // bumped to v14: updated prj-3 to Elevva
+  PROJECTS: 'systex_db_projects_v15', // bumped to v15: updated prj-3 Elevva image and direct link
   LEADS: 'systex_db_leads_v1',
   SETTINGS: 'systex_db_settings_v3',
   AUTH: 'systex_admin_auth_v1',
@@ -90,6 +90,7 @@ export default function App() {
       localStorage.removeItem('systex_db_projects_v11');
       localStorage.removeItem('systex_db_projects_v12');
       localStorage.removeItem('systex_db_projects_v13');
+      localStorage.removeItem('systex_db_projects_v14');
       const saved = localStorage.getItem(STORAGE_KEYS.PROJECTS);
       if (saved) {
         const parsed = JSON.parse(saved);
@@ -105,11 +106,7 @@ export default function App() {
               const shouldOverrideBarberFlow =
                 item.id === 'prj-2' &&
                 (item.title?.includes('Sovereign') || item.liveUrl?.includes('sovereign'));
-              const shouldOverrideElevva =
-                item.id === 'prj-3' &&
-                (item.title?.toLowerCase().includes('alzza') ||
-                  item.liveUrl?.toLowerCase().includes('alzza') ||
-                  item.client?.toLowerCase().includes('alzza'));
+              const shouldOverrideElevva = item.id === 'prj-3';
               const shouldOverrideAgroindustrial =
                 item.id === 'prj-4' &&
                 (item.title?.toLowerCase().includes('autoparts') ||
@@ -135,7 +132,10 @@ export default function App() {
                       client: initialMatch.client,
                       liveUrl: initialMatch.liveUrl,
                       link: initialMatch.link,
+                      imageUrl: initialMatch.imageUrl,
+                      image: initialMatch.image,
                       matrixCode: initialMatch.matrixCode,
+                      description: initialMatch.description,
                     }
                   : {}),
                 ...(shouldOverrideAgroindustrial
@@ -293,7 +293,9 @@ export default function App() {
                   data.id === 'prj-3' &&
                   (data.title?.toLowerCase().includes('alzza') ||
                     data.liveUrl?.toLowerCase().includes('alzza') ||
-                    data.client?.toLowerCase().includes('alzza'));
+                    data.client?.toLowerCase().includes('alzza') ||
+                    data.liveUrl !== initialMatch.liveUrl ||
+                    data.image !== initialMatch.image);
                 const shouldUpdateAgroindustrial =
                   data.id === 'prj-4' &&
                   (data.title?.toLowerCase().includes('autoparts') ||
@@ -319,7 +321,10 @@ export default function App() {
                         client: initialMatch.client,
                         liveUrl: initialMatch.liveUrl,
                         link: initialMatch.link,
+                        imageUrl: initialMatch.imageUrl,
+                        image: initialMatch.image,
                         matrixCode: initialMatch.matrixCode,
+                        description: initialMatch.description,
                       }
                     : {}),
                   ...(shouldUpdateAgroindustrial

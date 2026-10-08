@@ -125,8 +125,8 @@ export const INITIAL_PROJECTS: Project[] = [
     shortTag: 'Landing & Reservas',
     category: 'Landing Pages',
     adminCategoryLabel: 'Landing Page & Experiencia Gastronómica',
-    liveUrl: 'https://elevva-py.vercel.app/',
-    link: 'https://elevva-py.vercel.app/',
+    liveUrl: 'https://elevva-py.vercel.app',
+    link: 'https://elevva-py.vercel.app',
     imageUrl: elevvaImg,
     image: 'images/elevva.png',
     description:
