@@ -62,7 +62,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
   const industries = [
     { id: 'comercio', label: 'Comercio / Tienda', icon: 'storefront' },
     { id: 'clinica', label: 'Salud & Belleza', icon: 'medical_services' },
-    { id: 'empresa', label: 'Empresa / B2B', icon: 'domain' },
+    { id: 'empresa', label: 'Empresa', icon: 'domain' },
     { id: 'profesional', label: 'Servicios Prof.', icon: 'badge' },
   ] as const;
 

@@ -1,7 +1,7 @@
 import logicoreImg from '../assets/images/portfolio_logicore_erp_1790912187135.jpg';
 import auraClinicImg from '../assets/images/portfolio_aura_clinic_1790912198150.jpg';
 import nexusFintechImg from '../assets/images/portfolio_nexus_fintech_1790912207795.jpg';
-import autopartsImg from '../assets/images/portfolio_autoparts_b2b_1790912217993.jpg';
+import agroindustrialImg from '../assets/images/agroindustrial.png';
 import alzzaImg from '../assets/images/alzza.png';
 import barberflowImg from '../assets/images/barberflow.png';
 import classicBarberImg from '../assets/images/classic_barber.png';
@@ -83,7 +83,7 @@ export const PORTFOLIO_PRESET_IMAGES = [
   { label: 'ERP & Control de Stock (LogiCore)', url: logicoreImg },
   { label: 'Clínica & Agendamiento (Aura)', url: auraClinicImg },
   { label: 'FinTech & Landing B2B (Nexus)', url: nexusFintechImg },
-  { label: 'Portal Mayorista B2B (AutoParts)', url: autopartsImg },
+  { label: 'ERP Agroindustrial & POS (Insumos Agrícolas)', url: agroindustrialImg },
 ];
 
 export const INITIAL_PROJECTS: Project[] = [
@@ -146,30 +146,30 @@ export const INITIAL_PROJECTS: Project[] = [
   {
     id: 'prj-4',
     deployId: '#STX-PRJ-8930',
-    title: 'AutoParts Express Portal',
-    landingTitle: 'AutoParts Express - Pedidos B2B',
-    client: 'AutoParts Repuestos',
-    industry: 'AUTOMOTRIZ & MAYORISTAS',
-    shortTag: 'Catálogo B2B',
+    title: 'Insumos Agrícolas S.A. - Sistema Agroindustrial',
+    landingTitle: 'Insumos Agrícolas S.A. - ERP & Control Operativo',
+    client: 'Insumos Agrícolas S.A.',
+    industry: 'AGROINDUSTRIA & COMERCIAL',
+    shortTag: 'ERP & POS',
     category: 'Sistemas de Gestión',
-    adminCategoryLabel: 'Portal B2B & Cotizador',
-    liveUrl: 'https://autoparts-pedidos.systex.cloud',
-    link: 'https://autoparts-pedidos.systex.cloud',
-    imageUrl: autopartsImg,
-    image: 'images/proyecto4.jpeg',
+    adminCategoryLabel: 'Sistema ERP & Punto de Venta Agroindustrial',
+    liveUrl: 'https://demo-erp-sistema.vercel.app',
+    link: 'https://demo-erp-sistema.vercel.app',
+    imageUrl: agroindustrialImg,
+    image: 'images/agroindustrial.png',
     description:
-      'Portal exclusivo para distribuidores mayoristas con listas de precios segmentadas y cotización automática de fletes en tiempo real.',
-    impactLabel: 'Ahorro operativo:',
-    impactValue: '6 horas/día en atención telefónica',
-    metrics: '6 horas/día en atención telefónica (+120 distribuidores activos)',
-    matrixCode: 'AUTOPARTS // B2B PORTAL',
-    matrixBadge: 'COTIZADOR AUTO',
+      'Sistema integral de gestión agroindustrial y control operativo diario. Módulos de Punto de Venta (POS), facturación legal con timbrado vigente, control de inventario en tiempo real, alertas de stock crítico y reportes ejecutivos.',
+    impactLabel: 'Control Operativo:',
+    impactValue: '100% trazabilidad de stock y ventas',
+    metrics: '100% trazabilidad operativa (Ventas POS • Timbrado Legal • Stock Crítico)',
+    matrixCode: 'INSUMOS AGRICOLAS // ERP AGRO',
+    matrixBadge: 'ERP & POS LIVE',
     previewStats: [
-      { value: '+120 Mayoristas', label: 'Activos' },
-      { value: '$180k GMV/mes', label: 'Volumen' },
+      { value: 'POS & Timbrado', label: 'Facturación Legal' },
+      { value: 'Stock Crítico', label: 'Alertas en Tiempo Real' },
     ],
     published: true,
-    technologies: ['TypeScript', 'ERP Sync', 'REST API', 'Cloud SQL'],
+    technologies: ['React', 'TypeScript', 'Tailwind CSS', 'Punto de Venta (POS)', 'Facturación Legal', 'Control de Inventario'],
   },
   {
     id: 'prj-5',

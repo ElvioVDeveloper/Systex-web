@@ -35,7 +35,7 @@ import {
 } from './firebase';
 
 const STORAGE_KEYS = {
-  PROJECTS: 'systex_db_projects_v12', // bumped to v12: deleted LogiCore ERP
+  PROJECTS: 'systex_db_projects_v13', // bumped to v13: updated prj-4 to Insumos Agrícolas S.A.
   LEADS: 'systex_db_leads_v1',
   SETTINGS: 'systex_db_settings_v3',
   AUTH: 'systex_admin_auth_v1',
@@ -88,6 +88,7 @@ export default function App() {
       localStorage.removeItem('systex_db_projects_v9');
       localStorage.removeItem('systex_db_projects_v10');
       localStorage.removeItem('systex_db_projects_v11');
+      localStorage.removeItem('systex_db_projects_v12');
       const saved = localStorage.getItem(STORAGE_KEYS.PROJECTS);
       if (saved) {
         const parsed = JSON.parse(saved);
@@ -103,6 +104,11 @@ export default function App() {
               const shouldOverrideBarberFlow =
                 item.id === 'prj-2' &&
                 (item.title?.includes('Sovereign') || item.liveUrl?.includes('sovereign'));
+              const shouldOverrideAgroindustrial =
+                item.id === 'prj-4' &&
+                (item.title?.toLowerCase().includes('autoparts') ||
+                  item.liveUrl?.toLowerCase().includes('autoparts') ||
+                  item.client?.toLowerCase().includes('autoparts'));
               return {
                 ...initialMatch,
                 ...item,
@@ -114,6 +120,26 @@ export default function App() {
                       liveUrl: initialMatch.liveUrl,
                       link: initialMatch.link,
                       matrixCode: initialMatch.matrixCode,
+                    }
+                  : {}),
+                ...(shouldOverrideAgroindustrial
+                  ? {
+                      title: initialMatch.title,
+                      landingTitle: initialMatch.landingTitle,
+                      client: initialMatch.client,
+                      industry: initialMatch.industry,
+                      shortTag: initialMatch.shortTag,
+                      adminCategoryLabel: initialMatch.adminCategoryLabel,
+                      liveUrl: initialMatch.liveUrl,
+                      link: initialMatch.link,
+                      description: initialMatch.description,
+                      impactLabel: initialMatch.impactLabel,
+                      impactValue: initialMatch.impactValue,
+                      metrics: initialMatch.metrics,
+                      matrixCode: initialMatch.matrixCode,
+                      matrixBadge: initialMatch.matrixBadge,
+                      previewStats: initialMatch.previewStats,
+                      technologies: initialMatch.technologies,
                     }
                   : {}),
                 imageUrl: initialMatch.imageUrl,
@@ -247,6 +273,11 @@ export default function App() {
                 const shouldUpdateBarberFlow =
                   data.id === 'prj-2' &&
                   (data.title?.includes('Sovereign') || data.liveUrl?.includes('sovereign'));
+                const shouldUpdateAgroindustrial =
+                  data.id === 'prj-4' &&
+                  (data.title?.toLowerCase().includes('autoparts') ||
+                    data.liveUrl?.toLowerCase().includes('autoparts') ||
+                    data.client?.toLowerCase().includes('autoparts'));
                 const updatedProj = {
                   ...initialMatch,
                   ...data,
@@ -260,11 +291,34 @@ export default function App() {
                         matrixCode: initialMatch.matrixCode,
                       }
                     : {}),
+                  ...(shouldUpdateAgroindustrial
+                    ? {
+                        title: initialMatch.title,
+                        landingTitle: initialMatch.landingTitle,
+                        client: initialMatch.client,
+                        industry: initialMatch.industry,
+                        shortTag: initialMatch.shortTag,
+                        adminCategoryLabel: initialMatch.adminCategoryLabel,
+                        liveUrl: initialMatch.liveUrl,
+                        link: initialMatch.link,
+                        description: initialMatch.description,
+                        impactLabel: initialMatch.impactLabel,
+                        impactValue: initialMatch.impactValue,
+                        metrics: initialMatch.metrics,
+                        matrixCode: initialMatch.matrixCode,
+                        matrixBadge: initialMatch.matrixBadge,
+                        previewStats: initialMatch.previewStats,
+                        technologies: initialMatch.technologies,
+                      }
+                    : {}),
                   imageUrl: initialMatch.imageUrl,
                   image: initialMatch.image,
                 };
                 if (shouldUpdateBarberFlow) {
                   setDoc(doc(db, 'projects', 'prj-2'), updatedProj).catch(() => {});
+                }
+                if (shouldUpdateAgroindustrial) {
+                  setDoc(doc(db, 'projects', 'prj-4'), updatedProj).catch(() => {});
                 }
                 remoteProjects.push(updatedProj);
               } else {
