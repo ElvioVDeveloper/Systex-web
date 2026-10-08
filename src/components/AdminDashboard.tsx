@@ -8,7 +8,7 @@ import {
   FOUNDER_ASSETS,
   PORTFOLIO_PRESET_IMAGES,
 } from '../types/systex';
-import { SysTexMonogram } from './SysTexLogos';
+import { SysTexMonogram, SysTexIsotipo } from './SysTexLogos';
 
 interface AdminDashboardProps {
   projects: Project[];
@@ -315,9 +315,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           {/* Brand Header */}
           <div className="flex items-center justify-between px-space-sm">
             <div className="flex items-center gap-space-sm">
-              <div className="w-9 h-9 rounded-xl bg-surface-container flex items-center justify-center">
-                <span className="material-symbols-outlined text-primary text-[22px]">terminal</span>
-              </div>
+              <SysTexIsotipo size="sm" className="w-8 h-8" />
               <div className="flex flex-col">
                 <span className="font-headline text-[22px] font-bold tracking-tight text-on-surface leading-none">
                   SysTex

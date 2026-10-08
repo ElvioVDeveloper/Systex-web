@@ -6,6 +6,7 @@ import {
   AgencySettings,
 } from '../types/systex';
 import { SysTexLogo, SysTexMonogram } from './SysTexLogos';
+import isotipoImg from '../assets/images/isotiposystex.jpg';
 
 interface LandingPageProps {
   projects: Project[];
@@ -285,16 +286,42 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       <header className="sticky top-0 z-50 w-full bg-[#111317]/95 backdrop-blur-xl border-b border-[#22262E]">
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 sm:h-20 flex items-center justify-between">
           {/* Brand Logo */}
-          <button
-            type="button"
-            onClick={() => {
+          <a
+            href="/"
+            onClick={(e) => {
+              e.preventDefault();
               scrollToSection('inicio');
               setMobileMenuOpen(false);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
-            className="text-left focus:outline-none group flex items-center cursor-pointer"
+            className="flex items-center gap-2.5 sm:gap-3 focus:outline-none group cursor-pointer"
+            aria-label="SysTex — Inicio"
           >
-            <SysTexLogo size="sm" subtitleText="DIGITAL SYSTEMS" />
-          </button>
+            <img
+              src={isotipoImg || "/images/isotiposystex.jpg"}
+              alt="SysTex Isotipo"
+              className="h-8 sm:h-10 w-auto object-contain rounded-full border border-[#00F0FF]/30 shadow-[0_0_12px_rgba(0,240,255,0.25)] shrink-0 group-hover:scale-105 transition-transform duration-200"
+              onError={(e) => {
+                const target = e.currentTarget;
+                if (!target.src.includes('/images/isotiposystex.jpg')) {
+                  target.src = '/images/isotiposystex.jpg';
+                }
+              }}
+            />
+            <div className="flex flex-col justify-center leading-none">
+              <div className="font-headline font-bold tracking-tight flex items-baseline text-lg sm:text-xl">
+                <span className="bg-gradient-to-b from-[#7EC6EE] via-[#4FACFE] to-[#0093E9] bg-clip-text text-transparent drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]">
+                  Sys
+                </span>
+                <span className="bg-gradient-to-b from-[#FFFFFF] via-[#E2E8F0] to-[#94A3B8] bg-clip-text text-transparent drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]">
+                  Tex
+                </span>
+              </div>
+              <span className="font-label text-[#8FA8BE] font-semibold uppercase mt-0.5 sm:mt-1 text-[8px] sm:text-[8.5px] tracking-[0.18em]">
+                DIGITAL SYSTEMS
+              </span>
+            </div>
+          </a>
 
           {/* Desktop Navigation Links */}
           <nav className="hidden md:flex items-center gap-7 lg:gap-9 text-sm font-medium text-[#9BA3AE]">
