@@ -988,26 +988,31 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               </div>
 
               {/* WhatsApp Direct Banner */}
-              <div className="p-5 rounded-2xl bg-gradient-to-r from-[#17232F] to-[#141B24] border border-[#2A3E52] text-left flex flex-col sm:flex-row items-center justify-between gap-4">
-                <div>
-                  <span className="text-[10px] font-mono uppercase tracking-wider text-[#7CC0EB] font-semibold">
+              <div className="relative overflow-hidden p-6 sm:p-7 rounded-2xl bg-gradient-to-br from-[#172533] via-[#141C26] to-[#0E151E] border border-[#2B4764] shadow-[0_8px_32px_rgba(0,0,0,0.4)] text-center flex flex-col items-center justify-center gap-4">
+                {/* Glow accent */}
+                <div className="absolute -top-12 -right-12 w-32 h-32 bg-[#00F0FF]/10 blur-3xl rounded-full pointer-events-none" />
+
+                <div className="flex flex-col items-center gap-1.5">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#1E364C] border border-[#3A6D8C]/50 text-[11px] font-mono uppercase tracking-wider text-[#7CC0EB] font-semibold">
+                    <span className="w-2 h-2 rounded-full bg-[#00F0FF] animate-pulse" />
                     ¿Prefieres chat directo?
                   </span>
-                  <p className="font-headline font-bold text-sm text-white mt-0.5">
+                  <p className="font-headline font-bold text-base sm:text-lg text-white mt-1">
                     WhatsApp: +595 994 865645
                   </p>
-                  <p className="text-[11px] text-[#A4B1C0]">Atención directa para Paraguay y la región</p>
+                  <p className="text-xs text-[#A4B1C0]">Atención inmediata para Paraguay y la región</p>
                 </div>
+
                 <a
                   href="https://wa.me/595994865645"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-5 py-3 rounded-xl bg-[#3A6D8C] hover:bg-[#477E9F] text-white font-semibold text-xs sm:text-sm transition-all shadow-[0_0_18px_rgba(58,109,140,0.35)] shrink-0 whitespace-nowrap cursor-pointer"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#2B82B5] to-[#206894] hover:from-[#3592CB] hover:to-[#2678AA] text-white font-semibold text-sm transition-all shadow-[0_0_24px_rgba(43,130,181,0.45)] cursor-pointer group"
                 >
-                  <svg className="w-4 h-4 fill-currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 fill-currentColor group-hover:scale-110 transition-transform" viewBox="0 0 24 24">
                     <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 11.64c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.03-1.25-.75-.67-1.26-1.5-1.41-1.75-.14-.25-.02-.39.11-.51.11-.11.25-.29.37-.44.13-.14.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.34-.76-1.84-.2-.49-.4-.42-.56-.43h-.47c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.77 2.71 4.3 3.79.6.26 1.07.41 1.44.53.61.2 1.16.17 1.6-.1.49-.3 1.47-1.2 1.68-1.71.21-.51.21-.95.15-1.05-.06-.1-.23-.16-.48-.28z"/>
                   </svg>
-                  <span>Contactar directamente por whatsapp</span>
+                  <span>Abrir Chat de WhatsApp Directo</span>
                 </a>
               </div>
             </div>
@@ -1107,7 +1112,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
                       <div className="flex flex-col gap-1.5">
                         <label className="text-xs font-semibold text-[#B8C2CE]">
-                          Email Corporativo
+                          Email
                         </label>
                         <input
                           type="email"
@@ -1135,6 +1140,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                           </option>
                           <option value="Sistema de Gestión & Control de Stock">
                             Sistema de Gestión &amp; Control de Stock (ERP)
+                          </option>
+                          <option value="Catálogo virtual con Pedidos por WhatsApp">
+                            Catálogo virtual con Pedidos por WhatsApp
                           </option>
                           <option value="Plataforma de Agendamiento & Reservas">
                             Plataforma de Agendamiento &amp; Reservas con WhatsApp
