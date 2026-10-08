@@ -752,13 +752,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         <section id="portafolio" className="py-8 sm:py-16 border-t border-[#1D2129]">
           <div className="flex flex-col items-center text-center mb-8">
             <span className="px-3.5 py-1 rounded-md bg-[#181C22] border border-[#262C36] font-label-text text-[10px] sm:text-[11px] font-semibold uppercase tracking-widest text-[#74B3DC]">
-              PORTAFOLIO SELECCIONADO
+              DEMOS &amp; DESARROLLOS
             </span>
             <h2 className="mt-3 font-headline font-bold text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight">
-              Nuestros Trabajos y Casos de Éxito
+              Nuestros Trabajos y Demos
             </h2>
             <p className="mt-2.5 text-sm sm:text-base text-[#949CA8] max-w-2xl">
-              Explora los proyectos web y sistemas que impulsan a nuestros clientes con resultados comprobables.
+              Explora nuestros trabajos y demos interactivos funcionales diseñados como prototipos de alta calidad para empresas y negocios.
             </p>
           </div>
 
@@ -836,13 +836,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                     </div>
 
                     <div className="px-5 pb-5 sm:px-6 sm:pb-6">
-                      {/* Action Button: Ver Caso de Estudio */}
+                      {/* Action Button: Probar Demo en Vivo */}
                       <button
                         type="button"
                         onClick={() => setSelectedCaseStudy(project)}
                         className="w-full py-2.5 px-4 rounded-xl bg-[#1D2129] hover:bg-[#252B36] border border-[#2B313D] hover:border-[#3A6D8C] text-xs font-semibold text-[#E1E7ED] flex items-center justify-center gap-1.5 transition-all cursor-pointer"
                       >
-                        <span>Ver Caso de Estudio</span>
+                        <span>Probar Demo en Vivo</span>
                         <span className="material-symbols-outlined text-[15px] text-[#7CC0EB]">
                           open_in_new
                         </span>
