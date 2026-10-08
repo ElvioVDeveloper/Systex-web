@@ -35,7 +35,7 @@ import {
 } from './firebase';
 
 const STORAGE_KEYS = {
-  PROJECTS: 'systex_db_projects_v8', // bumped to v8 for The Classic Barber Shop demo inclusion
+  PROJECTS: 'systex_db_projects_v12', // bumped to v12: deleted LogiCore ERP
   LEADS: 'systex_db_leads_v1',
   SETTINGS: 'systex_db_settings_v3',
   AUTH: 'systex_admin_auth_v1',
@@ -84,14 +84,43 @@ export default function App() {
       localStorage.removeItem('systex_db_projects_v5');
       localStorage.removeItem('systex_db_projects_v6');
       localStorage.removeItem('systex_db_projects_v7');
+      localStorage.removeItem('systex_db_projects_v8');
+      localStorage.removeItem('systex_db_projects_v9');
+      localStorage.removeItem('systex_db_projects_v10');
+      localStorage.removeItem('systex_db_projects_v11');
       const saved = localStorage.getItem(STORAGE_KEYS.PROJECTS);
       if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          // Merge with INITIAL_PROJECTS: default fields come from INITIAL_PROJECTS, but user edits (item) take precedence
-          const merged = parsed.map((item: Project) => {
+          // Merge with INITIAL_PROJECTS, excluding deleted prj-1 LogiCore ERP
+          const filtered = parsed.filter(
+            (item: Project) =>
+              item.id !== 'prj-1' && !item.title?.toLowerCase().includes('logicore')
+          );
+          const merged = filtered.map((item: Project) => {
             const initialMatch = INITIAL_PROJECTS.find((p) => p.id === item.id);
-            return initialMatch ? { ...initialMatch, ...item } : item;
+            if (initialMatch) {
+              const shouldOverrideBarberFlow =
+                item.id === 'prj-2' &&
+                (item.title?.includes('Sovereign') || item.liveUrl?.includes('sovereign'));
+              return {
+                ...initialMatch,
+                ...item,
+                ...(shouldOverrideBarberFlow
+                  ? {
+                      title: initialMatch.title,
+                      landingTitle: initialMatch.landingTitle,
+                      client: initialMatch.client,
+                      liveUrl: initialMatch.liveUrl,
+                      link: initialMatch.link,
+                      matrixCode: initialMatch.matrixCode,
+                    }
+                  : {}),
+                imageUrl: initialMatch.imageUrl,
+                image: initialMatch.image,
+              };
+            }
+            return item;
           });
           for (const initP of INITIAL_PROJECTS) {
             if (!merged.some((m) => m.id === initP.id)) {
@@ -204,8 +233,43 @@ export default function App() {
             const remoteProjects: Project[] = [];
             snapshot.forEach((docSnap) => {
               const data = docSnap.data() as Project;
+              // If prj-1 or LogiCore document exists in Firestore, remove it
+              if (
+                docSnap.id === 'prj-1' ||
+                data.id === 'prj-1' ||
+                data.title?.toLowerCase().includes('logicore')
+              ) {
+                deleteDoc(doc(db, 'projects', docSnap.id)).catch(() => {});
+                return;
+              }
               const initialMatch = INITIAL_PROJECTS.find((p) => p.id === data.id);
-              remoteProjects.push(initialMatch ? { ...initialMatch, ...data } : data);
+              if (initialMatch) {
+                const shouldUpdateBarberFlow =
+                  data.id === 'prj-2' &&
+                  (data.title?.includes('Sovereign') || data.liveUrl?.includes('sovereign'));
+                const updatedProj = {
+                  ...initialMatch,
+                  ...data,
+                  ...(shouldUpdateBarberFlow
+                    ? {
+                        title: initialMatch.title,
+                        landingTitle: initialMatch.landingTitle,
+                        client: initialMatch.client,
+                        liveUrl: initialMatch.liveUrl,
+                        link: initialMatch.link,
+                        matrixCode: initialMatch.matrixCode,
+                      }
+                    : {}),
+                  imageUrl: initialMatch.imageUrl,
+                  image: initialMatch.image,
+                };
+                if (shouldUpdateBarberFlow) {
+                  setDoc(doc(db, 'projects', 'prj-2'), updatedProj).catch(() => {});
+                }
+                remoteProjects.push(updatedProj);
+              } else {
+                remoteProjects.push(data);
+              }
             });
             for (const initP of INITIAL_PROJECTS) {
               if (!remoteProjects.some((rp) => rp.id === initP.id)) {

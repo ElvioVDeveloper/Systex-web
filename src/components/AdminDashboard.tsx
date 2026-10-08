@@ -1246,7 +1246,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   required
                   value={titleAndClientInput}
                   onChange={(e) => setTitleAndClientInput(e.target.value)}
-                  placeholder="Ej: LogiCore ERP // LogiCore S.A."
+                  placeholder="Ej: BarberFlow // BarberFlow Studio"
                   className="bg-surface-container text-on-surface text-sm px-3.5 py-2.5 rounded-xl focus:outline-none focus:ring-1 focus:ring-primary w-full border border-white/5"
                 />
               </div>

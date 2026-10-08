@@ -3,8 +3,8 @@ import auraClinicImg from '../assets/images/portfolio_aura_clinic_1790912198150.
 import nexusFintechImg from '../assets/images/portfolio_nexus_fintech_1790912207795.jpg';
 import autopartsImg from '../assets/images/portfolio_autoparts_b2b_1790912217993.jpg';
 import alzzaImg from '../assets/images/alzza.png';
-import soverImg from '../assets/images/sover.png';
-import classicBarberImg from '../assets/images/classic_barber_demo_1791477716196.jpg';
+import barberflowImg from '../assets/images/barberflow.png';
+import classicBarberImg from '../assets/images/classic_barber.png';
 
 export type PortfolioCategory =
   | 'Sistemas de Gestión'
@@ -77,7 +77,7 @@ export const FOUNDER_ASSETS = {
 };
 
 export const PORTFOLIO_PRESET_IMAGES = [
-  { label: 'Barbería & Agendamiento (Sovereign Craft)', url: soverImg },
+  { label: 'Barbería & Agendamiento (BarberFlow)', url: barberflowImg },
   { label: 'Barbería Atelier & Turnos (The Classic Barber)', url: classicBarberImg },
   { label: 'Gastronomía & Rooftop (Alzza)', url: alzzaImg },
   { label: 'ERP & Control de Stock (LogiCore)', url: logicoreImg },
@@ -88,54 +88,25 @@ export const PORTFOLIO_PRESET_IMAGES = [
 
 export const INITIAL_PROJECTS: Project[] = [
   {
-    id: 'prj-1',
-    deployId: '#STX-PRJ-8821',
-    title: 'LogiCore ERP',
-    landingTitle: 'LogiCore ERP',
-    client: 'LogiCore S.A.',
-    industry: 'LOGÍSTICA & RETAIL',
-    shortTag: 'Control Stock',
-    category: 'Sistemas de Gestión',
-    adminCategoryLabel: 'Sistemas de Gestión & Stock',
-    liveUrl: 'https://logicore-portal.systex.cloud',
-    link: 'https://logicore-portal.systex.cloud',
-    imageUrl: logicoreImg,
-    image: 'images/proyecto1.jpeg',
-    description:
-      'Gestión de inventario masivo con multi-depósito, trazabilidad con lectores de código de barra y despacho optimizado.',
-    impactLabel: 'Impacto medido:',
-    impactValue: 'Reducción de 45% en pérdidas de stock',
-    metrics: 'Reducción de 45% en pérdidas de stock (-45% errores | 52,400+ SKUs)',
-    matrixCode: 'LOGICORE // SKU MATRIX',
-    matrixBadge: 'LIVE v4.2',
-    previewStats: [
-      { value: '52,400+', label: 'SKUS' },
-      { value: '-45%', label: 'ERRORES' },
-      { value: '4 Sedes', label: 'SYNC' },
-    ],
-    published: true,
-    technologies: ['Next.js', 'PostgreSQL', 'Redis', 'Barcode API'],
-  },
-  {
     id: 'prj-2',
     deployId: '#STX-PRJ-8845',
-    title: 'Sovereign Craft - Barbershop',
-    landingTitle: 'Sovereign Craft - Studio & Barbershop',
-    client: 'Sovereign Craft',
+    title: 'BarberFlow - Barbershop',
+    landingTitle: 'BarberFlow - Studio & Barbershop',
+    client: 'BarberFlow',
     industry: 'BARBERÍA & CUIDADO PERSONAL',
     shortTag: 'Agendamiento',
     category: 'Agendamiento',
     adminCategoryLabel: 'Plataforma de Agendamiento de Turnos',
-    liveUrl: 'https://barberia-sovereign.vercel.app/',
-    link: 'https://barberia-sovereign.vercel.app/',
-    imageUrl: soverImg,
-    image: 'images/sover.png',
+    liveUrl: 'https://barberia-barberflow.vercel.app/',
+    link: 'https://barberia-barberflow.vercel.app/',
+    imageUrl: barberflowImg,
+    image: 'images/barberflow.png',
     description:
-      'Cortes de precisión y afeitado tradicional. Reserva tu turno de 1 hora con confirmación inmediata y recordatorios automáticos.',
+      'Cortes de precisión y afeitado tradicional. Reserva tu turno de 1 hora en línea con confirmación inmediata y recordatorios automáticos.',
     impactLabel: 'Asistencia:',
     impactValue: '0 turnos perdidos por inasistencia',
     metrics: '0 turnos perdidos por inasistencia (Turnos 1h • Confirmación Inmediata)',
-    matrixCode: 'SOVEREIGN // BOOKING',
+    matrixCode: 'BARBERFLOW // BOOKING',
     matrixBadge: 'LIVE BOOKING',
     previewStats: [
       { value: 'Turnos de 1h', label: 'Reserva Previa' },
@@ -213,17 +184,17 @@ export const INITIAL_PROJECTS: Project[] = [
     liveUrl: 'https://barberia-demo-gilt-two.vercel.app',
     link: 'https://barberia-demo-gilt-two.vercel.app',
     imageUrl: classicBarberImg,
-    image: 'images/classic_barber.jpg',
+    image: 'images/classic_barber.png',
     description:
-      'Atelier de alta barbería tradicional con reserva de turnos en línea y gestión ejecutiva de agenda. Sistema de citas por sillón, control de barberos y confirmación de turnos.',
-    impactLabel: 'Turnos Digitales:',
+      'Atelier de afeitado y estilo tradicional con reserva de experiencia exclusiva en 5 pasos. Catálogo de rituales, selección de Master Barber, gestión de turnos en vivo y confirmación digital.',
+    impactLabel: 'Experiencia Exclusiva:',
     impactValue: '100% turnos digitalizados',
-    metrics: '100% turnos digitalizados (4 Sillones Atelier • Agenda en Vivo)',
+    metrics: '100% digitalizado (Ruta Sexta, Capitán Miranda • Reserva en 5 Pasos)',
     matrixCode: 'CLASSIC BARBER // ATELIER',
     matrixBadge: 'LIVE BOOKING',
     previewStats: [
-      { value: '4 Sillones', label: 'Atelier Spa' },
-      { value: '100% Digital', label: 'Agenda en Vivo' },
+      { value: 'Ruta Sexta', label: 'Capitán Miranda' },
+      { value: '100% Digital', label: 'Reserva 5 Pasos' },
     ],
     published: true,
     technologies: ['React', 'TypeScript', 'Tailwind CSS', 'Booking Engine', 'Firebase'],
