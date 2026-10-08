@@ -4,6 +4,7 @@ import nexusFintechImg from '../assets/images/portfolio_nexus_fintech_1790912207
 import autopartsImg from '../assets/images/portfolio_autoparts_b2b_1790912217993.jpg';
 import alzzaImg from '../assets/images/alzza.png';
 import soverImg from '../assets/images/sover.png';
+import classicBarberImg from '../assets/images/classic_barber_demo_1791477716196.jpg';
 
 export type PortfolioCategory =
   | 'Sistemas de Gestión'
@@ -77,6 +78,7 @@ export const FOUNDER_ASSETS = {
 
 export const PORTFOLIO_PRESET_IMAGES = [
   { label: 'Barbería & Agendamiento (Sovereign Craft)', url: soverImg },
+  { label: 'Barbería Atelier & Turnos (The Classic Barber)', url: classicBarberImg },
   { label: 'Gastronomía & Rooftop (Alzza)', url: alzzaImg },
   { label: 'ERP & Control de Stock (LogiCore)', url: logicoreImg },
   { label: 'Clínica & Agendamiento (Aura)', url: auraClinicImg },
@@ -197,6 +199,34 @@ export const INITIAL_PROJECTS: Project[] = [
     ],
     published: true,
     technologies: ['TypeScript', 'ERP Sync', 'REST API', 'Cloud SQL'],
+  },
+  {
+    id: 'prj-5',
+    deployId: '#STX-PRJ-8955',
+    title: 'The Classic Barber Shop - Atelier & Turnos',
+    landingTitle: 'The Classic Barber Shop - Atelier & Reserva de Turnos',
+    client: 'The Classic Barber Shop',
+    industry: 'BARBERÍA & CUIDADO PERSONAL',
+    shortTag: 'Turnos Online',
+    category: 'Agendamiento',
+    adminCategoryLabel: 'Plataforma de Agendamiento & Gestión de Sillones',
+    liveUrl: 'https://barberia-demo-gilt-two.vercel.app',
+    link: 'https://barberia-demo-gilt-two.vercel.app',
+    imageUrl: classicBarberImg,
+    image: 'images/classic_barber.jpg',
+    description:
+      'Atelier de alta barbería tradicional con reserva de turnos en línea y gestión ejecutiva de agenda. Sistema de citas por sillón, control de barberos y confirmación de turnos.',
+    impactLabel: 'Turnos Digitales:',
+    impactValue: '100% turnos digitalizados',
+    metrics: '100% turnos digitalizados (4 Sillones Atelier • Agenda en Vivo)',
+    matrixCode: 'CLASSIC BARBER // ATELIER',
+    matrixBadge: 'LIVE BOOKING',
+    previewStats: [
+      { value: '4 Sillones', label: 'Atelier Spa' },
+      { value: '100% Digital', label: 'Agenda en Vivo' },
+    ],
+    published: true,
+    technologies: ['React', 'TypeScript', 'Tailwind CSS', 'Booking Engine', 'Firebase'],
   },
 ];
 

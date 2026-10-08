@@ -23,6 +23,7 @@ import {
   auth,
   googleProvider,
   signInWithPopup,
+  signInAnonymously,
   signOut,
   onAuthStateChanged,
   User,
@@ -34,7 +35,7 @@ import {
 } from './firebase';
 
 const STORAGE_KEYS = {
-  PROJECTS: 'systex_db_projects_v7', // bumped to v7 for Sovereign Craft official URL
+  PROJECTS: 'systex_db_projects_v8', // bumped to v8 for The Classic Barber Shop demo inclusion
   LEADS: 'systex_db_leads_v1',
   SETTINGS: 'systex_db_settings_v3',
   AUTH: 'systex_admin_auth_v1',
@@ -57,6 +58,15 @@ export default function App() {
   const [loginPassword, setLoginPassword] = useState('');
   const [loginError, setLoginError] = useState('');
 
+  // Auto-connect Firebase Auth if admin is locally authenticated
+  useEffect(() => {
+    if (isAuthenticated && !auth.currentUser) {
+      signInAnonymously(auth).catch((err) => {
+        console.warn('Anonymous Firebase auth note:', err.message);
+      });
+    }
+  }, [isAuthenticated]);
+
   // Real-time Toast Notification for Admin
   const [realtimeNotification, setRealtimeNotification] = useState<{
     title: string;
@@ -73,15 +83,22 @@ export default function App() {
       localStorage.removeItem('systex_db_projects_v4');
       localStorage.removeItem('systex_db_projects_v5');
       localStorage.removeItem('systex_db_projects_v6');
+      localStorage.removeItem('systex_db_projects_v7');
       const saved = localStorage.getItem(STORAGE_KEYS.PROJECTS);
       if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          // Merge with INITIAL_PROJECTS so real source code projects always retain pristine images and metrics
-          return parsed.map((item: Project) => {
+          // Merge with INITIAL_PROJECTS: default fields come from INITIAL_PROJECTS, but user edits (item) take precedence
+          const merged = parsed.map((item: Project) => {
             const initialMatch = INITIAL_PROJECTS.find((p) => p.id === item.id);
-            return initialMatch ? { ...item, ...initialMatch } : item;
+            return initialMatch ? { ...initialMatch, ...item } : item;
           });
+          for (const initP of INITIAL_PROJECTS) {
+            if (!merged.some((m) => m.id === initP.id)) {
+              merged.push(initP);
+            }
+          }
+          return merged;
         }
       }
     } catch {
@@ -188,8 +205,14 @@ export default function App() {
             snapshot.forEach((docSnap) => {
               const data = docSnap.data() as Project;
               const initialMatch = INITIAL_PROJECTS.find((p) => p.id === data.id);
-              remoteProjects.push(initialMatch ? { ...data, ...initialMatch } : data);
+              remoteProjects.push(initialMatch ? { ...initialMatch, ...data } : data);
             });
+            for (const initP of INITIAL_PROJECTS) {
+              if (!remoteProjects.some((rp) => rp.id === initP.id)) {
+                remoteProjects.push(initP);
+                setDoc(doc(db, 'projects', initP.id), initP).catch(() => {});
+              }
+            }
             setProjects(remoteProjects);
           } else {
             // Seed initial projects to Firestore
@@ -475,6 +498,11 @@ export default function App() {
       setIsAuthenticated(true);
       try {
         localStorage.setItem(STORAGE_KEYS.AUTH, 'true');
+        if (!auth.currentUser) {
+          signInAnonymously(auth).catch((err) => {
+            console.warn('Anonymous Firebase auth note:', err.message);
+          });
+        }
       } catch {
         // ignore
       }
@@ -488,6 +516,11 @@ export default function App() {
     setIsAuthenticated(true);
     try {
       localStorage.setItem(STORAGE_KEYS.AUTH, 'true');
+      if (!auth.currentUser) {
+        signInAnonymously(auth).catch((err) => {
+          console.warn('Anonymous Firebase auth note:', err.message);
+        });
+      }
     } catch {
       // ignore
     }
