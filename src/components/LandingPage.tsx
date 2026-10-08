@@ -463,9 +463,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({
            ========================================================= */}
         <section id="inicio" className="py-8 sm:py-16 lg:py-24 flex flex-col items-center text-center">
           {/* Top Kicker Badge */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#181C22] border border-[#272D37] text-[11px] sm:text-xs font-label-text font-semibold tracking-wider uppercase text-[#B8C4D0] mb-6 sm:mb-8">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#181C22] border border-[#272D37] text-[11px] sm:text-xs font-label-text font-semibold tracking-wide text-[#B8C4D0] mb-6 sm:mb-8">
             <span className="w-2 h-2 rounded-full bg-[#5294BE] shadow-[0_0_8px_#5294BE]" />
-            <span>SOLUCIONES DIGITALES B2B DE NUEVA GENERACIÓN</span>
+            <span>Soluciones Digitales a la Medida de tu Negocio</span>
           </div>
 
           {/* Headline (Adjusted typography for mobile: text-3xl sm:text-5xl lg:text-6xl) */}
@@ -775,54 +775,42 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               {filteredProjects.map((project) => (
                 <article
                   key={project.id}
-                  className="rounded-2xl bg-[#171A20] border border-[#262B35] hover:border-[#3A6D8C] transition-all shadow-lg p-5 sm:p-6 flex flex-col justify-between"
+                  className="rounded-2xl bg-[#171A20] border border-[#262B35] hover:border-[#3A6D8C] transition-all shadow-lg overflow-hidden flex flex-col justify-between group"
                 >
                   <div>
-                    {/* Top Bar with Matrix Code / Live Badge */}
-                    <div className="flex items-center justify-between text-[10px] font-mono pb-3 mb-3 border-b border-[#222730]">
-                      <span className="text-[#8E97A5] tracking-wider uppercase truncate max-w-[150px]">
-                        {project.matrixCode || `${project.title.toUpperCase()} // LIVE`}
-                      </span>
-                      <span className="px-2 py-0.5 rounded bg-[#1D2733] border border-[#2E4156] text-[#7CC0EB] font-semibold text-[10px] shrink-0">
-                        {project.matrixBadge || 'PRODUCTION'}
-                      </span>
+                    {/* Project Preview Image */}
+                    {project.imageUrl && (
+                      <div className="relative w-full h-44 sm:h-48 overflow-hidden bg-[#111317]">
+                        <img
+                          src={project.imageUrl}
+                          alt={project.landingTitle || project.title}
+                          referrerPolicy="no-referrer"
+                          className="w-full h-full max-w-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#171A20] via-transparent to-transparent opacity-80" />
+                      </div>
+                    )}
+
+                    {/* Content Body */}
+                    <div className="p-5 sm:p-6">
+                      {/* Title */}
+                      <h3 className="font-headline font-bold text-lg text-white leading-snug">
+                        {project.landingTitle || project.title}
+                      </h3>
+
+                      {/* Description */}
+                      <p className="mt-2 text-xs sm:text-sm text-[#98A1AE] leading-relaxed line-clamp-3">
+                        {project.description}
+                      </p>
                     </div>
-
-                    {/* Card Category & Industry */}
-                    <div className="flex items-center justify-between text-[11px] mb-2">
-                      <span className="font-mono font-semibold uppercase tracking-wider text-[#66A7D2] truncate max-w-[140px]">
-                        {project.industry || project.client}
-                      </span>
-                      <span className="text-[#9AA2AE] font-medium text-[11px]">
-                        {project.shortTag || project.category}
-                      </span>
-                    </div>
-
-                    {/* Title */}
-                    <h3 className="font-headline font-bold text-lg text-white leading-snug">
-                      {project.landingTitle || project.title}
-                    </h3>
-
-                    {/* Description */}
-                    <p className="mt-2 text-xs sm:text-sm text-[#98A1AE] leading-relaxed line-clamp-3">
-                      {project.description}
-                    </p>
                   </div>
 
-                  <div className="mt-5">
-                    {/* Impact / Result Bar */}
-                    <div className="pt-3 border-t border-[#222731] flex items-center justify-between gap-2 text-xs mb-4">
-                      <span className="text-[#8E97A4] text-[11px]">{project.impactLabel || 'Impacto medido:'}</span>
-                      <span className="font-semibold text-[#7CC0EB] text-right text-xs">
-                        {project.impactValue}
-                      </span>
-                    </div>
-
+                  <div className="px-5 pb-5 sm:px-6 sm:pb-6">
                     {/* Action Button: Ver Caso de Estudio */}
                     <button
                       type="button"
                       onClick={() => setSelectedCaseStudy(project)}
-                      className="w-full py-2.5 px-4 rounded-xl bg-[#1D2129] hover:bg-[#252B36] border border-[#2B313D] text-xs font-semibold text-[#E1E7ED] flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                      className="w-full py-2.5 px-4 rounded-xl bg-[#1D2129] hover:bg-[#252B36] border border-[#2B313D] hover:border-[#3A6D8C] text-xs font-semibold text-[#E1E7ED] flex items-center justify-center gap-1.5 transition-all cursor-pointer"
                     >
                       <span>Ver Caso de Estudio</span>
                       <span className="material-symbols-outlined text-[15px] text-[#7CC0EB]">

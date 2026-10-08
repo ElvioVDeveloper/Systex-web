@@ -501,7 +501,7 @@ export default function App() {
     <div className="relative min-h-screen bg-[#111317] overflow-x-hidden w-full">
       {/* REAL-TIME FLOATING TOAST NOTIFICATION (ONLY FOR AUTHENTICATED ADMIN) */}
       {isAuthenticated && realtimeNotification && (
-        <div className="fixed bottom-16 right-4 z-50 max-w-sm rounded-xl bg-[#1C2129]/95 backdrop-blur-xl border border-[#3A6D8C] p-4 shadow-[0_10px_30px_rgba(0,0,0,0.65)] flex items-start gap-3">
+        <div className="fixed bottom-4 right-4 z-50 max-w-sm rounded-xl bg-[#1C2129]/95 backdrop-blur-xl border border-[#3A6D8C] p-4 shadow-[0_10px_30px_rgba(0,0,0,0.65)] hidden md:flex items-start gap-3">
           <div className="w-8 h-8 rounded-lg bg-[#253545] text-[#97CDF4] flex items-center justify-center shrink-0">
             <span className="material-symbols-outlined text-base">bolt</span>
           </div>
