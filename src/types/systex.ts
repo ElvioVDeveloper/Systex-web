@@ -181,8 +181,8 @@ export const INITIAL_PROJECTS: Project[] = [
     shortTag: 'Turnos Online',
     category: 'Agendamiento',
     adminCategoryLabel: 'Plataforma de Agendamiento & Gestión de Sillones',
-    liveUrl: 'https://barberia-demo-gilt-two.vercel.app',
-    link: 'https://barberia-demo-gilt-two.vercel.app',
+    liveUrl: 'https://barberlanding.vercel.app',
+    link: 'https://barberlanding.vercel.app',
     imageUrl: classicBarberImg,
     image: 'images/classic_barber.png',
     description:

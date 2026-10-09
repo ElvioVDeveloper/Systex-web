@@ -35,7 +35,7 @@ import {
 } from './firebase';
 
 const STORAGE_KEYS = {
-  PROJECTS: 'systex_db_projects_v15', // bumped to v15: updated prj-3 Elevva image and direct link
+  PROJECTS: 'systex_db_projects_v16', // bumped to v16: updated prj-5 The Classic Barber Shop direct link to https://barberlanding.vercel.app
   LEADS: 'systex_db_leads_v1',
   SETTINGS: 'systex_db_settings_v3',
   AUTH: 'systex_admin_auth_v1',
@@ -91,6 +91,7 @@ export default function App() {
       localStorage.removeItem('systex_db_projects_v12');
       localStorage.removeItem('systex_db_projects_v13');
       localStorage.removeItem('systex_db_projects_v14');
+      localStorage.removeItem('systex_db_projects_v15');
       const saved = localStorage.getItem(STORAGE_KEYS.PROJECTS);
       if (saved) {
         const parsed = JSON.parse(saved);
@@ -112,9 +113,16 @@ export default function App() {
                 (item.title?.toLowerCase().includes('autoparts') ||
                   item.liveUrl?.toLowerCase().includes('autoparts') ||
                   item.client?.toLowerCase().includes('autoparts'));
+              const shouldOverrideClassicBarber = item.id === 'prj-5';
               return {
                 ...initialMatch,
                 ...item,
+                ...(shouldOverrideClassicBarber
+                  ? {
+                      liveUrl: initialMatch.liveUrl,
+                      link: initialMatch.link,
+                    }
+                  : {}),
                 ...(shouldOverrideBarberFlow
                   ? {
                       title: initialMatch.title,
